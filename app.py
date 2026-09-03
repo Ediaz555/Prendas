@@ -81,7 +81,7 @@ else:
 		image = Image.open(uploaded)
 		st.image(image, caption="Imagen cargada", width=280)
 
-if image is not None and st.button("Predecir"):
+if image is not None:
 	try:
 		index, probabilities = predict(image)
 		st.success(f"Predicción: {CLASS_NAMES[index]}")
