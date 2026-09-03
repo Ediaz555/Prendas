@@ -43,6 +43,21 @@ def predict(image):
 	return index, probabilities
 
 
+def get_canvas_image(canvas):
+	if canvas is None:
+		return None
+	try:
+		image_data = canvas.image_data
+	except RuntimeError:
+		return None
+	if image_data is None or image_data.size == 0:
+		return None
+	if image_data.ndim == 3 and image_data.shape[2] >= 4:
+		if np.any(image_data[:, :, 3] > 0):
+			return Image.fromarray(image_data.astype("uint8"), "RGBA")
+	return None
+
+
 option = st.radio("Selecciona una opción", ["Dibujar", "Subir imagen"], horizontal=True)
 image = None
 
@@ -57,8 +72,7 @@ if option == "Dibujar":
 		drawing_mode="freedraw",
 		key="prenda_canvas",
 	)
-	if canvas.image_data is not None and np.any(canvas.image_data[:, :, 3] > 0):
-		image = Image.fromarray(canvas.image_data.astype("uint8"), "RGBA")
+	image = get_canvas_image(canvas)
 else:
 	uploaded = st.file_uploader(
 		"Carga una imagen", type=["png", "jpg", "jpeg", "bmp"]
