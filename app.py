@@ -12,7 +12,7 @@ st.set_page_config(
 	layout="centered",
 )
 
-MODEL_PATH = Path(__file__).parent / "fashion_mnist_model.keras"
+MODEL_PATH = Path(__file__).parent / "Prendas.keras"
 CLASS_NAMES = [
 	"T-shirt/top",
 	"Trouser",
